@@ -21,10 +21,10 @@ class Settings(BaseSettings):
     # "http://localhost:8080", "http://local.dockertoolbox.tiangolo.com"]'
     BACKEND_CORS_ORIGINS: List[AnyHttpUrl] = []
 
-    DB_USER: str = 'admin'
-    DB_PASSWORD: str = 'K0$haAdmin'
-    DB_SERVER: str = 'mssql.c2ddhe3ucvcr.us-east-2.rds.amazonaws.com'
-    DB_NAME: str = 'test'
+    DB_USER: str = None
+    DB_PASSWORD: str = None
+    DB_SERVER: str = None
+    DB_NAME: str = None
 
     SQLALCHEMY_DATABASE_URI: str = None
 
