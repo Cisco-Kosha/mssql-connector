@@ -24,14 +24,12 @@ def get_connector_spec():
 async def test_connector_spec(request: Request):
     data = await request.json()
     if data is not None:
-        db_url = PostgresDsn.build(
-            scheme="postgres",
-            user=data["DB_USER"],
-            password=data["DB_PASSWORD"],
-            host=data["DB_SERVER"],
-            path=f'/{data["DB_NAME"] or ""}',
-        )
-        engine = create_engine(db_url, pool_pre_ping=True)
+        db_url = 'mssql+pyodbc://{0}:{1}@{2}/{3}?driver=ODBC+Driver+18+for+SQL+Server?trusted_connection=yes'.format(
+            data["DB_USER"], data["DB_PASSWORD"],
+            data["DB_SERVER"], data["DB_NAME"])
+        engine = create_engine(db_url, connect_args={
+            "TrustServerCertificate": "yes"
+        }, pool_pre_ping=True)
         Inspector = inspect(engine)
         db = Database(settings.SQLALCHEMY_DATABASE_URI)
         inspector = Inspector.from_engine(engine)
