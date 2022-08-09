@@ -1,5 +1,6 @@
 from typing import List, Any
 
+import pyodbc
 import sqlalchemy
 from fastapi.encoders import jsonable_encoder
 from sqlalchemy.exc import ResourceClosedError, SQLAlchemyError
@@ -59,10 +60,14 @@ class CRUDRecord(CRUDBase[Record, Any, None]):
 def run_sql_cmd(session: Session, sql_str: RawSQL) -> Any:
     try:
         rs = session.execute(sql_str.raw_sql)
-        session.commit()
+        if 'insert' in sql_str.raw_sql:
+            session.commit()
+        elif 'update' in sql_str.raw_sql:
+            session.commit()
         result = [dict(row) for row in rs]
         return result
-    except SQLAlchemyError:
+    except SQLAlchemyError as e:
+        print(e)
         session.rollback()
         session.flush()
         session.close()
