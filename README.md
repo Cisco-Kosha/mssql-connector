@@ -18,6 +18,22 @@ A robust long-lived API needs the freedom to exist in multiple versions. MSSQL c
 ## Self-documentation
 MSSQL connector uses the OpenAPI standard to generate up-to-date documentation for APIs. You can use a tool like Swagger-UI to render interactive documentation for demo requests against the live API server.
 
+## Usage Guidelines
+
+### Primary keys
+For the endpoints to work against any mssql db tables, it is expected that the table have a primary key defined. 
+
+If not, you will see this error message in the logs when performing any CRUD operations:
+````
+ArgumentError: Mapper Mapper|SomeTable|SomeTable could not assemble any primary key columns for mapped table 'SomeTable'.
+````
+
+In order to fix this, please create or alter your table to have a primary key, like so:
+
+````bash
+alter table SomeTable add column id int not null identity(1,1) primary key;
+````
+
 ## Development
 ### Build
 
