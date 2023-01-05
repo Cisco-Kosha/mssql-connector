@@ -19,7 +19,7 @@
       "minLength": 10,
       "maxLength": 60,
       "required": true,
-      "description": "MSSQL DB Passowrd",
+      "description": "MSSQL DB Password",
       "example": "my-secret-password",
       "helpSection": "MSSQL DB Password"
     },
@@ -31,19 +31,19 @@
       "maxLength": 60,
       "required": true,
       "description": "MSSQL Server Host URL",
-      "example": "https://my-mssql-db-url.com",
+      "example": "my-mssql-db-url.com",
       "helpSection": "MSSQL Host URL"
     },
     {
       "field": "DB_NAME",
-      "displayName": "MSSQL Server Port",
+      "displayName": "MSSQL Server DB Name",
       "type": "String",
       "minLength": 10,
       "maxLength": 60,
       "required": true,
-      "description": "MSSQL Server Port",
+      "description": "MSSQL DB Name",
       "example": "test",
-      "helpSection": "MSSQL Server port number"
+      "helpSection": "MSSQL DB name"
     }
   ]
 }
