@@ -3,47 +3,47 @@
   "fields": [
     {
       "field": "DB_USER",
-      "displayName": "PostgreSQL DB Username",
+      "displayName": "MSSQL DB Username",
       "type": "String",
       "minLength": 3,
       "maxLength": 40,
       "required": true,
-      "description": "PostgreSQL Server Username",
+      "description": "MSSQL Server Username",
       "example": "username",
-      "helpSection": "PostgreSQL DB username"
+      "helpSection": "MSSQL DB username"
     },
     {
       "field": "DB_PASSWORD",
-      "displayName": "PostgreSQL DB Password",
+      "displayName": "MSSQL DB Password",
       "type": "Password",
       "minLength": 10,
       "maxLength": 60,
       "required": true,
-      "description": "PostgreSQL DB Passowrd",
+      "description": "MSSQL DB Passowrd",
       "example": "my-secret-password",
-      "helpSection": "PostgreSQL DB Password"
+      "helpSection": "MSSQL DB Password"
     },
     {
       "field": "DB_SERVER",
-      "displayName": "PostgreSQL DB Host",
+      "displayName": "MSSQL DB Host",
       "type": "String",
       "minLength": 10,
       "maxLength": 60,
       "required": true,
-      "description": "PostgreSQL Server Host URL",
-      "example": "https://my-pg-db-url.com",
-      "helpSection": "PostgreSQL Host URL"
+      "description": "MSSQL Server Host URL",
+      "example": "https://my-mssql-db-url.com",
+      "helpSection": "MSSQL Host URL"
     },
     {
       "field": "DB_NAME",
-      "displayName": "PostgreSQL Server Port",
+      "displayName": "MSSQL Server Port",
       "type": "String",
       "minLength": 10,
       "maxLength": 60,
       "required": true,
-      "description": "PostgreSQL Server Port",
-      "example": "postgres",
-      "helpSection": "PostgreSQL Server port number"
+      "description": "MSSQL Server Port",
+      "example": "test",
+      "helpSection": "MSSQL Server port number"
     }
   ]
 }
