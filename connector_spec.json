@@ -44,6 +44,17 @@
       "description": "MSSQL DB Name",
       "example": "test",
       "helpSection": "MSSQL DB name"
+    },
+    {
+      "field": "DB_PORT",
+      "displayName": "MSSQL Server Port Number",
+      "type": "String",
+      "minLength": 10,
+      "maxLength": 60,
+      "required": true,
+      "description": "MSSQL DB Port",
+      "example": "1433",
+      "helpSection": "MSSQL DB Port"
     }
   ]
 }

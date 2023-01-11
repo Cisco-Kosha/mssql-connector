@@ -25,6 +25,7 @@ class Settings(BaseSettings):
     DB_PASSWORD: str = None
     DB_SERVER: str = None
     DB_NAME: str = None
+    DB_PORT: str = None
 
     SQLALCHEMY_DATABASE_URI: str = None
 
@@ -40,9 +41,9 @@ class Settings(BaseSettings):
     def assemble_db_connection(cls, v: Optional[str], values: Dict[str, Any]) -> Any:
         if isinstance(v, str):
             return v
-        return 'mssql+pyodbc://{0}:{1}@{2}:1433/{3}?driver=ODBC+Driver+18+for+SQL+Server?trusted_connection=yes'.format(
+        return 'mssql+pyodbc://{0}:{1}@{2}:{3}/{4}?driver=ODBC+Driver+17+for+SQL+Server?trusted_connection=yes'.format(
             os.getenv('DB_USER'), os.getenv('DB_PASSWORD'),
-            os.getenv('DB_SERVER'), os.getenv('DB_NAME'))
+            os.getenv('DB_SERVER'), os.getenv('DB_PORT', '1433'), os.getenv('DB_NAME'))
 
     class Config:
         case_sensitive = True
