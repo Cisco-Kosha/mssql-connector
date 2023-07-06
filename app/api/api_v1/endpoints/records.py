@@ -81,6 +81,25 @@ def create_record(table: str,
         raise HTTPException(status_code=400, detail=str(e))
 
 
+@router.post("{table}/bulk", response_model=Any)
+def insert_bulk_records(table: str,
+                        *,
+                        db: Session = Depends(deps.get_db),
+                        records_in: List[RecordCreate]) -> Any:
+    """
+    Insert bulk records.
+    """
+    if table is None:
+        raise HTTPException(status_code=409, detail="Table not set")
+    table_metadata.set_table(table)
+    try:
+        record = CRUDRecord(get_table_object())
+        record = record.create_records(db=db, obj_in=records_in)
+        return record
+    except exception.InsertRowIntoTable as e:
+        raise HTTPException(status_code=400, detail=str(e))
+
+
 @router.post("/query/raw/sql", response_model=Any)
 def run_sql_command(
         sql: RawSQL,

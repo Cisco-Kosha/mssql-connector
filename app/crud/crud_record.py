@@ -30,6 +30,17 @@ class CRUDRecord(CRUDBase[Record, Any, None]):
         except Exception as e:
             raise exception.InsertRowIntoTable(e)
 
+    def create_records(self, db: Session, obj_in: List[Any]) -> Any:
+        try:
+            obj_in_data = jsonable_encoder(obj_in)
+            for obj in obj_in_data:
+                db_obj = self.model(**obj)
+                db.add(db_obj)
+            db.commit()
+            return obj_in_data
+        except Exception as e:
+            raise exception.InsertRowIntoTable(e)
+
     def get_record_by_params(self, session: Session, args: Request) -> List[Record]:
         try:
             query = session.query(self.model)
