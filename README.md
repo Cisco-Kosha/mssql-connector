@@ -25,15 +25,15 @@ A table record is a single row of data within a table. Use the PostgreSQL connec
 
 ### Table metadata
 
-Table metadata describes tables in the database and includes details such as the table name, column names, and data types of the columns. Use the Kosha PostgreSQL connector to retrieve metadata for tables and table columns.
+Table metadata describes tables in the database and includes details such as the table name, column names, and data types of the columns. Use the Kosha MS SQL Server connector to retrieve metadata for tables and table columns.
 
 ### Database schemas
 
-A database schema organizes database objects such as tables, views, indexes, procedures, and other related entities. Use the PostgreSQL connector to get schemas for a database.
+A database schema organizes database objects such as tables, views, indexes, procedures, and other related entities. Use the MS SQL Server connector to get schemas for a database.
 
 ### Stored procedures
 
-Stored procedures enable you to group related database operations, improve performance, ensure data consistency, and promote code reusability and security in your applications. Use the PostgreSQL connector to:
+Stored procedures enable you to group related database operations, improve performance, ensure data consistency, and promote code reusability and security in your applications. Use the MS SQL Server connector to:
 
 * Create, get, and delete user-defined functions
 * Execute RPC functions
