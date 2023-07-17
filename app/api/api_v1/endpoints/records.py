@@ -81,7 +81,7 @@ def create_record(table: str,
         raise HTTPException(status_code=400, detail=str(e))
 
 
-@router.post("{table}/bulk", response_model=Any)
+@router.post("/{table}/bulk", response_model=Any)
 def insert_bulk_records(table: str,
                         *,
                         db: Session = Depends(deps.get_db),
