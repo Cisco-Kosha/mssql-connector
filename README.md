@@ -1,68 +1,52 @@
-# MSSQL Connector
+# Kosha MS SQL Server Connector
 
 
-MSSQL connector is a standalone web server that turns your MSSQL database directly into a RESTful API. The structural constraints and permissions in the database determine the API endpoints and operations.
-
-![MSSQL](images/mssql.jpg)
-
-## Motivation
-
-Using this connector is an alternative to manual CRUD programming. Custom API servers suffer problems. Writing business logic often duplicates, ignores or hobbles database structure. The connector philosophy establishes a single declarative source of truth: the data itself.
-
-## Security
-The connector handles authentication (via JSON Web Tokens) and delegates authorization to the role information defined in the database. This ensures there is a single declarative source of truth for security. When dealing with the database the server assumes the identity of the currently authenticated user, and for the duration of the connection cannot do anything the user themselves couldn't. Other forms of authentication can be built on top of the JWT primitive. See the docs for more information.
-
-## Versioning
-A robust long-lived API needs the freedom to exist in multiple versions. MSSQL connector does versioning through database schemas. This allows you to expose tables and views without making the app brittle. Underlying tables can be superseded and hidden behind public facing views.
-
-## Self-documentation
-MSSQL connector uses the OpenAPI standard to generate up-to-date documentation for APIs. You can use a tool like Swagger-UI to render interactive documentation for demo requests against the live API server.
-
-## Usage Guidelines
-
-### Primary keys
-For the endpoints to work against any mssql db tables, it is expected that the table have a primary key defined. 
-
-If not, you will see this error message in the logs when performing any CRUD operations:
-````
-ArgumentError: Mapper Mapper|SomeTable|SomeTable could not assemble any primary key columns for mapped table 'SomeTable'.
-````
-
-In order to fix this, please create or alter your table to have a primary key, like so:
-
-````bash
-alter table SomeTable add column id int not null identity(1,1) primary key;
-````
-
-## Development
-### Build
-
-Install Python 3.7 (or later) on your machine.
-
-Install pipenv
-
-```bash
-pip install pipenv
-```
-
-To start the virtualenv of the project, run
-```
-    pipenv shell
-```
-
-To install dependencies, run
-```
-    pipenv install
-```
-
-### Running locally
-
-To run the project, simply provide env variables to point the app to a DB backend
+MS SQL (Microsoft SQL Server) is a relational database that offers excellent performance, high availability, and advanced security features. It integrates well with the Microsoft technology stack, providing seamless integration with tools like Visual Studio and Azure. 
 
 
-```bash
-DB_USER=admin DB_PASSWORD=<password> DB_SERVER=localhost DB_NAME=test uvicorn main:app --reload --workers 1 --host 0.0.0.0 --port 8001
-```
+The Kosha MS SQL Server connector enables you to perform REST API operations from the MS SQL Server in your Kosha workflow or custom application. Using the Kosha MS SQL Server connector, you can directly access MS SQL Server to:
 
+* Get database schemas
+* Create, read, and delete table records
+* Create functions
 
-This will start a worker and expose the API on port `8001` on the host machine.
+## Useful Actions
+
+You can use the Kosha MS SQL Server connector to perform a variety of functions related to managing database tables.
+
+Refer to the Kosha MS SQL Server connector [API specification](openapi.json) for details.
+
+### Table records
+
+A table record is a single row of data within a table. Use the PostgreSQL connector to:
+
+* Create, delete, and read records
+* Read records by query params
+
+### Table metadata
+
+Table metadata describes tables in the database and includes details such as the table name, column names, and data types of the columns. Use the Kosha MS SQL Server connector to retrieve metadata for tables and table columns.
+
+### Database schemas
+
+A database schema organizes database objects such as tables, views, indexes, procedures, and other related entities. Use the MS SQL Server connector to get schemas for a database.
+
+### Stored procedures
+
+Stored procedures enable you to group related database operations, improve performance, ensure data consistency, and promote code reusability and security in your applications. Use the MS SQL Server connector to:
+
+* Create, get, and delete user-defined functions
+* Execute RPC functions
+
+## Authentication
+
+To authenticate when provisioning the Kosha MS SQL Server connector, you need your:
+
+* MS SQL Server database username and password
+* MS SQL Server database host
+* MS SQL Server database name
+* MS SQL Server port number
+
+## Kosha Connector Open Source Development
+
+All connectors Kosha shares on the marketplace are open source. We believe in fostering collaboration and open development. Everyone is welcome to contribute their ideas, improvements, and feedback for any Kosha connector. We encourage community engagement and appreciate any contributions that align with our goals of an open and collaborative API management platform.
