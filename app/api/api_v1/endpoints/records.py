@@ -1,4 +1,4 @@
-from typing import Any, List, Optional, Set
+from typing import Any, List, Optional, Set, Dict
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Body
 from pydantic import BaseModel
@@ -19,11 +19,11 @@ RecordCreate = CreateRowFunc()
 
 
 class Items(BaseModel):
-    fields: List[RecordCreate]
+    fields: Dict[str, List[RecordCreate]]
 
 
 class Item(BaseModel):
-    fields: RecordCreate
+    fields: Dict[str, RecordCreate]
 
 
 @router.get("/{table}", response_model=List[Any])
@@ -75,7 +75,7 @@ def create_record(table: str,
                   db: Session = Depends(deps.get_db),
                   record_in: Item) -> Any:
     """
-    Create new record.
+    Create new record. Specify the key in fields JSON payload body as 'items' and value as a single records.
     """
     if table is None:
         raise HTTPException(status_code=409, detail="Table not set")
@@ -84,7 +84,7 @@ def create_record(table: str,
     table_metadata.set_table(table)
     try:
         record = CRUDRecord(get_table_object())
-        record = record.create_record(db=db, obj_in=record_in.field)
+        record = record.create_record(db=db, obj_in=record_in.fields.get("items"))
         return record.serialize
     except exception.InsertRowIntoTable as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -96,14 +96,14 @@ def insert_bulk_records(table: str,
                         db: Session = Depends(deps.get_db),
                         records_in: Items) -> Any:
     """
-    Insert bulk records.
+    Insert bulk records. Specify the key in fields JSON payload body as 'items' and value as a list of records.
     """
     if table is None:
         raise HTTPException(status_code=409, detail="Table not set")
     table_metadata.set_table(table)
     try:
         record = CRUDRecord(get_table_object())
-        record = record.create_records(db=db, obj_in=records_in.fields)
+        record = record.create_records(db=db, obj_in=records_in.fields.get("items"))
         return record
     except exception.InsertRowIntoTable as e:
         raise HTTPException(status_code=400, detail=str(e))
