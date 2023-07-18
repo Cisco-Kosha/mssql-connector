@@ -1,6 +1,7 @@
 from typing import Any, List, Optional, Set
 
 from fastapi import APIRouter, Depends, HTTPException, Request, Body
+from pydantic import BaseModel
 from sqlalchemy.orm import Session
 
 from app.core.config import logger
@@ -15,6 +16,14 @@ from app.utils import exception
 router = APIRouter()
 
 RecordCreate = CreateRowFunc()
+
+
+class Items(BaseModel):
+    fields: List[RecordCreate]
+
+
+class Item(BaseModel):
+    fields: RecordCreate
 
 
 @router.get("/{table}", response_model=List[Any])
@@ -64,7 +73,7 @@ def read_records_by_query_params(table: str, req: Request,
 def create_record(table: str,
                   *,
                   db: Session = Depends(deps.get_db),
-                  record_in: RecordCreate) -> Any:
+                  record_in: Item) -> Any:
     """
     Create new record.
     """
@@ -75,7 +84,7 @@ def create_record(table: str,
     table_metadata.set_table(table)
     try:
         record = CRUDRecord(get_table_object())
-        record = record.create_record(db=db, obj_in=record_in)
+        record = record.create_record(db=db, obj_in=record_in.field)
         return record.serialize
     except exception.InsertRowIntoTable as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -85,7 +94,7 @@ def create_record(table: str,
 def insert_bulk_records(table: str,
                         *,
                         db: Session = Depends(deps.get_db),
-                        records_in: List[RecordCreate]) -> Any:
+                        records_in: Items) -> Any:
     """
     Insert bulk records.
     """
@@ -94,7 +103,7 @@ def insert_bulk_records(table: str,
     table_metadata.set_table(table)
     try:
         record = CRUDRecord(get_table_object())
-        record = record.create_records(db=db, obj_in=records_in)
+        record = record.create_records(db=db, obj_in=records_in.fields)
         return record
     except exception.InsertRowIntoTable as e:
         raise HTTPException(status_code=400, detail=str(e))
