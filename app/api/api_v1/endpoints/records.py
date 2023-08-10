@@ -19,11 +19,11 @@ RecordCreate = CreateRowFunc()
 
 
 class Items(BaseModel):
-    fields: Dict[str, List[RecordCreate]]
+    fields: List[RecordCreate]
 
 
 class Item(BaseModel):
-    fields: Dict[str, RecordCreate]
+    fields: RecordCreate
 
 
 @router.get("/{table}", response_model=List[Any])
@@ -84,7 +84,7 @@ def create_record(table: str,
     table_metadata.set_table(table)
     try:
         record = CRUDRecord(get_table_object())
-        record = record.create_record(db=db, obj_in=record_in.fields.get("items"))
+        record = record.create_record(db=db, obj_in=record_in.fields)
         return record.serialize
     except exception.InsertRowIntoTable as e:
         raise HTTPException(status_code=400, detail=str(e))
@@ -103,7 +103,7 @@ def insert_bulk_records(table: str,
     table_metadata.set_table(table)
     try:
         record = CRUDRecord(get_table_object())
-        record = record.create_records(db=db, obj_in=records_in.fields.get("items"))
+        record = record.create_records(db=db, obj_in=records_in.fields)
         return record
     except exception.InsertRowIntoTable as e:
         raise HTTPException(status_code=400, detail=str(e))
